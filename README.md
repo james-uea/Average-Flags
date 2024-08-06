@@ -4,19 +4,13 @@ This project generates the "average" flag by combining multiple flag images usin
 We currently have averaging for: Countries and Pride Flags
 
 ## Showcase
-Here's a visual representation of how the average pride flag evolves as more flags are added to the mix:
+Here's a visual representation of how the average country flag evolves as more flags are added to the mix:
 
-<img src="images/10.jpg" alt="Interim result after 10 flags" width="300"/>
-<img src="images/30.jpg" alt="Interim result after 30 flags" width="300"/>
-<img src="images/60.jpg" alt="Interim result after 60 flags" width="300"/>
-<img src="images/200.jpg" alt="Interim result after 200 flags" width="300"/>
-<img src="images/600.jpg" alt="Interim result after 600 flags" width="300"/>
+![Evolution of Average Country Flag](images/country_flag_evolution.jpg)
 
-And finally, our end result:
+And how the average pride flag evolves as more flags are added to the mix:
 
-<img src="images/mean_image_final.jpg" alt="Final result after all images are processed" width="300"/>
-
-*The final average pride flag, combining all processed images*
+![Evolution of Average Pride Flag](images/pride_flag_evolution.jpg)
 
 ## Usage
 To use this project, follow the steps below:
