@@ -1,6 +1,14 @@
 import os
 from PIL import Image
 from collections import defaultdict
+import argparse
+
+parser = argparse.ArgumentParser(
+                    prog='normalise.py',
+                    description='Script for normalizing the aspect ratio of flag images')
+parser.add_argument('mode', choices=['pride', 'country'], help='Mode to run the script in')
+
+args = parser.parse_args()
 
 def get_aspect_ratio(width, height):
     def gcd(a, b):
@@ -27,5 +35,5 @@ def print_unique_aspect_ratios(folder_path):
         print(f"Aspect Ratio {ratio} - {len(files)}")
         print()
 
-folder_path = "flags"
+folder_path = 'pride_flags' if args.mode == 'pride' else 'country_flags'
 print_unique_aspect_ratios(folder_path)
