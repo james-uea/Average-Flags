@@ -1,8 +1,21 @@
 import os
 from PIL import Image, ImageDraw, ImageFont
 import numpy as np
+import argparse
 
-FOLDER_PATH = "flags"
+parser = argparse.ArgumentParser(
+                    prog='main.py',
+                    description='Generate the average from a collection of flag images')
+parser.add_argument('mode', choices=['pride', 'country'], help='Mode to run the script in')
+parser.add_argument('--sample-size', type=int, default=50, help='Number of images to process in each batch')
+parser.add_argument('--debug', action='store_true', help='Enable debug mode')
+
+args = parser.parse_args()
+
+if args.mode == 'pride':
+    FOLDER_PATH = "pride_flags"
+elif args.mode == 'country':
+    FOLDER_PATH = "country_flags"
 
 def resize_image(image, target_size):
     """Resize and adjust the image to the target size.
@@ -40,7 +53,7 @@ def process_batch(image_files, folder_path, target_size, start_idx, end_idx):
             batch_sum += img_array
     return batch_sum
 
-def create_mean_image(folder_path, sample_size=50):
+def create_mean_image(folder_path, sample_size):
     image_files = [f for f in os.listdir(folder_path) if f.lower().endswith(('.png', '.jpg', '.jpeg'))]
     
     first_image = Image.open(os.path.join(folder_path, image_files[0]))
@@ -54,10 +67,11 @@ def create_mean_image(folder_path, sample_size=50):
         batch_sum = process_batch(image_files, folder_path, target_size, start_idx, end_idx)
         total_sum += batch_sum
         
-        intermediate_mean = (total_sum / (end_idx)).astype(np.uint8)
-        intermediate_image = Image.fromarray(intermediate_mean)
-        intermediate_image.save(f"mean_image_interim_{end_idx}.jpg")
-        print(f"Interim mean image saved for {end_idx} images.")
+        if args.debug:
+            intermediate_mean = (total_sum / (end_idx)).astype(np.uint8)
+            intermediate_image = Image.fromarray(intermediate_mean)
+            intermediate_image.save(f"{args.mode}_interim_{end_idx}.jpg")
+            print(f"Interim mean image saved for {end_idx} images.")
     
     # Calculate the final mean image
     final_mean = (total_sum / total_images).astype(np.uint8)
@@ -77,7 +91,7 @@ def create_mean_image(folder_path, sample_size=50):
         title_font = ImageFont.load_default().font_variant(size=36)
         subtitle_font = ImageFont.load_default().font_variant(size=24)
 
-    title = "The average pride flag"
+    title = f"The average {args.mode} flag"
     subtitle1 = f"Generated from the mean of {total_images} images"
     subtitle2 = "Using pixel-wise averaging"
 
@@ -94,11 +108,11 @@ def create_mean_image(folder_path, sample_size=50):
     draw.text(((labeled_image.width - subtitle2_width) // 2, 105), subtitle2, fill=(0, 0, 0), font=subtitle_font)
 
     # Save the final labeled image
-    labeled_image.save("mean_image_final_labeled.jpg")
-    print("Final labeled mean image saved as 'mean_image_final_labeled.jpg'.")
+    labeled_image.save(f"{args.mode}_final_labeled.jpg")
+    print(f"Final labeled mean image saved as '{args.mode}_final_labeled.jpg'.")
 
 def main():
-    create_mean_image(FOLDER_PATH, sample_size=200)
+    create_mean_image(FOLDER_PATH, sample_size=args.sample_size)
 
 if __name__ == "__main__":
     main()

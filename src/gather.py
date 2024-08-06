@@ -4,9 +4,22 @@ import aiofiles
 import asyncio
 from aiohttp import ClientSession, TCPConnector
 from asyncio import Semaphore
+import argparse
 
-API_URL = 'https://api.github.com/repos/pronouns/pride-flags-png/contents/flags'
-DEST_DIR = 'flags'
+parser = argparse.ArgumentParser(
+                    prog='gather.py',
+                    description='Script for downloading flag images from a GitHub repository')
+parser.add_argument('mode', choices=['pride', 'country'], help='Mode to run the script in')
+
+args = parser.parse_args()
+
+if args.mode == 'pride':
+    API_URL = 'https://api.github.com/repos/pronouns/pride-flags-png/contents/flags'
+    DEST_DIR = 'pride_flags'
+elif args.mode == 'country':
+    API_URL = 'https://api.github.com/repos/hampusborgos/country-flags/contents/png1000px'
+    DEST_DIR = 'country_flags'
+
 MAX_CONCURRENT_REQUESTS = 5
 MAX_RETRIES = 3
 RETRY_DELAY = 1

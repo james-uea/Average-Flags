@@ -1,7 +1,15 @@
 import os
 from PIL import Image
+import argparse
 
-target_folder = 'flags'
+parser = argparse.ArgumentParser(
+                    prog='normalise.py',
+                    description='Script for normalizing the aspect ratio of flag images')
+parser.add_argument('mode', choices=['pride', 'country'], help='Mode to run the script in')
+
+args = parser.parse_args()
+
+target_folder = 'pride_flags' if args.mode == 'pride' else 'country_flags'
 target_width = 1153
 target_height = 692
 target_ratio = target_width / target_height

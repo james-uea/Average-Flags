@@ -1,5 +1,6 @@
-# Average-Pride-Flag files
-flags/
+# Average-Flags files
+country_flags/
+pride_flags/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
