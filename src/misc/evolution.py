@@ -3,8 +3,8 @@ from PIL import Image, ImageDraw, ImageFont
 import argparse
 
 parser = argparse.ArgumentParser(
-                    prog='gather.py',
-                    description='Script for downloading flag images from a GitHub repository')
+                    prog='evolution.py',
+                    description='Create an evolution graph from a series of images',)
 parser.add_argument('mode', choices=['pride', 'country'], help='Mode to run the script in')
 
 args = parser.parse_args()
